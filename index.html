@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dörtgen Atölyesi – Etkileşimli Matematik</title>
+<meta name="description" content="Paralelkenar, eşkenar dörtgen ve yamuğu keşfederek öğren. Maarif modeline uygun, araştırma temelli etkileşimli matematik sitesi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b2b3b; --muted:#4f6b78; --blue:#2f7bed; --teal:#0fb5ae; --green:#27c38a;
+  --bg:#effbfa; --card:#ffffff; --line:#d3ecec; --amber:#ffb703; --bad:#ef476f;
+  --grad:linear-gradient(135deg,#2f7bed 0%,#0fb5ae 55%,#27c38a 100%);
+  --r:26px; --shadow:0 12px 34px rgba(15,110,140,.13);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{margin:0;font-family:'Nunito',system-ui,sans-serif;color:var(--ink);line-height:1.55;
+  background:radial-gradient(900px 500px at 8% -5%,#d6ecff 0%,transparent 60%),
+             radial-gradient(900px 600px at 100% 10%,#d2f7ea 0%,transparent 60%),var(--bg);
+  overflow-x:hidden}
+h1,h2,h3{line-height:1.15;margin:0 0 .5em}
+h1{font-size:clamp(2.1rem,5.2vw,3.6rem);font-weight:900}
+h2{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:900}
+h3{font-size:1.2rem;font-weight:800}
+p{margin:0 0 .8em}
+section{padding:70px 20px;max-width:1180px;margin:0 auto;position:relative}
+.sec-head{text-align:center;margin-bottom:34px}
+.sec-head p{color:var(--muted);max-width:640px;margin:0 auto}
+.eyebrow{display:inline-block;padding:.3rem .9rem;border-radius:999px;background:#e0f6f3;color:#0a8f8a;font-weight:800;font-size:.85rem;margin-bottom:.8rem}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+ 
+/* butonlar – kenarları yuvarlak */
+.btn{position:relative;overflow:hidden;border:0;border-radius:999px;padding:.8rem 1.5rem;font:800 1rem 'Nunito',sans-serif;color:#fff;background:var(--grad);cursor:pointer;
+  box-shadow:0 8px 20px rgba(15,181,174,.35);transition:transform .2s,box-shadow .2s,filter .2s}
+.btn:hover{transform:translateY(-3px) scale(1.03);box-shadow:0 14px 26px rgba(15,181,174,.4);filter:saturate(1.1)}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:#fff;color:#0a8f8a;border:2px solid #9fe0da;box-shadow:none}
+.btn.ghost:hover{background:#e8faf8}
+.btn.small{padding:.5rem 1rem;font-size:.9rem}
+.btn:disabled{opacity:.6;cursor:wait}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:rip .6s ease-out;pointer-events:none}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+.chip{border:2px solid var(--line);background:#fff;color:var(--ink);border-radius:999px;padding:.45rem 1rem;font:800 .9rem 'Nunito',sans-serif;cursor:pointer;transition:all .2s}
+.chip:hover{border-color:var(--teal);transform:translateY(-2px)}
+.chip.on{background:var(--grad);color:#fff;border-color:transparent}
+.pill{display:inline-block;border-radius:999px;padding:.25rem .8rem;background:#e6f4ff;color:#1b63c9;font-weight:800;font-size:.8rem}
+.pill.green{background:#dcf8ec;color:#138a5b}
+.pill.teal{background:#dcf6f4;color:#0a8f8a}
+ 
+.card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:22px;border:1px solid #e3f3f3}
+ 
+/* arka plan şekilleri */
+.bg-shapes{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bg-shapes svg{position:absolute;opacity:.16;animation:float 14s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-34px) rotate(14deg)}}
+ 
+/* üst menü */
+.nav{position:sticky;top:10px;z-index:50;max-width:1180px;margin:10px auto 0;padding:0 14px}
+.nav-in{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 18px;background:rgba(255,255,255,.82);backdrop-filter:blur(14px);border-radius:999px;box-shadow:var(--shadow);border:1px solid #dff2f1}
+.logo{font-weight:900;font-size:1.15rem;display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--ink)}
+.logo i{display:inline-block;width:26px;height:26px;background:var(--grad);clip-path:polygon(18% 100%,100% 100%,82% 0,0 0);border-radius:4px;animation:wob 4s ease-in-out infinite}
+@keyframes wob{50%{transform:rotate(12deg) scale(1.1)}}
+.links{display:flex;gap:4px;margin-left:auto}
+.links a{padding:.5rem .95rem;border-radius:999px;text-decoration:none;color:var(--muted);font-weight:800;font-size:.95rem;transition:all .2s}
+.links a:hover{background:#e6f8f6;color:#0a8f8a}
+.links a.act{background:var(--grad);color:#fff}
+.user-chip{display:flex;align-items:center;gap:8px;border:0;background:#e9f9f6;border-radius:999px;padding:4px 14px 4px 4px;cursor:pointer;font:800 .9rem 'Nunito',sans-serif;color:var(--ink)}
+.avatar{width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:900}
+@media(max-width:820px){.links{display:none}.nav-in{padding-left:14px}.nav-in .btn,.user-chip{margin-left:auto}}
+ 
+/* hero */
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:30px;align-items:center;padding-top:50px}
+.hero p.lead{font-size:1.15rem;color:var(--muted);max-width:520px}
+.hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.hero-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:26px}
+.hero-stats span{background:#fff;border-radius:999px;padding:.4rem 1rem;font-weight:800;box-shadow:0 4px 14px rgba(15,110,140,.1)}
+.morph{position:relative;background:linear-gradient(160deg,#fff,#eafaf7);border-radius:40px;padding:20px;box-shadow:var(--shadow);cursor:pointer;animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-10px)}}
+.morph svg{width:100%;display:block}
+.morph .tag{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);padding:.45rem 1.2rem;border-radius:999px;color:#fff;font-weight:900;transition:background .6s;white-space:nowrap}
+@media(max-width:820px){.hero{grid-template-columns:1fr}}
+ 
+/* yolculuk */
+.journey{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;position:relative}
+.step{background:#fff;border-radius:22px;padding:18px 14px;text-align:center;box-shadow:var(--shadow);transition:transform .25s;border:1px solid #e3f3f3}
+.step:hover{transform:translateY(-8px) rotate(-1.5deg)}
+.step .ic{font-size:2rem;display:block;animation:pop 2.6s ease-in-out infinite}
+.step:nth-child(2) .ic{animation-delay:.3s}.step:nth-child(3) .ic{animation-delay:.6s}.step:nth-child(4) .ic{animation-delay:.9s}.step:nth-child(5) .ic{animation-delay:1.2s}
+@keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+.step b{display:block;margin:.3rem 0 .1rem}
+.step small{color:var(--muted)}
+@media(max-width:820px){.journey{grid-template-columns:1fr 1fr}}
+ 
+/* konu sekmeleri */
+.tabs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:24px}
+.tab{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.7rem 1.4rem;font:900 1rem 'Nunito',sans-serif;cursor:pointer;transition:all .25s;display:flex;gap:8px;align-items:center}
+.tab:hover{transform:translateY(-3px);border-color:var(--teal)}
+.tab.on{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 10px 22px rgba(15,181,174,.35)}
+.panel{display:none;grid-template-columns:1.25fr .75fr;gap:22px;animation:slideIn .5s ease}
+.panel.on{display:grid}
+@keyframes slideIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@media(max-width:940px){.panel.on{grid-template-columns:1fr}}
+.lab-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.lab-head h3{margin:0}
+.stage{width:100%;background:linear-gradient(180deg,#f3fcfb,#eaf6ff);border-radius:20px;border:2px dashed #bfe8e4;display:block;touch-action:none}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px;margin:14px 0}
+.m{background:#f1fbfa;border-radius:18px;padding:10px 6px;text-align:center;transition:transform .2s}
+.m:hover{transform:scale(1.06)}
+.m b{display:block;font-size:1.3rem;color:#0a8f8a}
+.m span{font-size:.78rem;color:var(--muted);font-weight:800}
+.formula{background:#102f44;color:#c9fff1;border-radius:16px;padding:10px 14px;font-weight:800;margin-bottom:12px;font-size:.98rem;min-height:44px}
+.controls{display:grid;gap:10px}
+.sl{display:grid;grid-template-columns:150px 1fr 56px;gap:10px;align-items:center;font-weight:800;font-size:.92rem}
+.sl output{background:#e6f8f6;color:#0a8f8a;border-radius:999px;text-align:center;padding:2px 0}
+input[type=range]{-webkit-appearance:none;appearance:none;height:10px;border-radius:999px;background:linear-gradient(90deg,#bfe2ff,#bff1df);outline:none;width:100%}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:26px;height:26px;border-radius:50%;background:var(--grad);border:3px solid #fff;box-shadow:0 3px 10px rgba(15,181,174,.5);cursor:grab;transition:transform .15s}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#0fb5ae;border:3px solid #fff;cursor:grab}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:560px){.sl{grid-template-columns:1fr 50px}.sl label{grid-column:1/-1}}
+.note{min-height:26px;font-weight:800;color:#138a5b;margin:6px 0 0}
+ 
+/* svg stilleri */
+.shape{stroke-width:3.5;stroke-linejoin:round;transition:fill .3s}
+.shape.para{fill:rgba(47,123,237,.2);stroke:#2f7bed}
+.shape.rhomb{fill:rgba(15,181,174,.2);stroke:#0fb5ae}
+.shape.trap{fill:rgba(39,195,138,.22);stroke:#1fa574}
+.tri{fill:rgba(255,183,3,.7);stroke:#e09b00;stroke-width:2.5;stroke-linejoin:round}
+.ghost{fill:none;stroke:#0fb5ae;stroke-width:2.5;stroke-dasharray:7 6}
+.dash{stroke:#0b2b3b;stroke-width:2;stroke-dasharray:6 5;opacity:.65;fill:none}
+.diag{stroke:#e5484d;stroke-width:2.5;fill:none}
+.mid{stroke:#7c4dff;stroke-width:3;stroke-dasharray:8 5;fill:none}
+.rt{fill:none;stroke:#0b2b3b;stroke-width:2}
+.arc{fill:none;stroke:#e5484d;stroke-width:2.5}
+.vlab{font:900 18px 'Nunito',sans-serif;fill:#0b2b3b;text-anchor:middle;dominant-baseline:middle}
+.slab{font:800 14px 'Nunito',sans-serif;fill:#1b63c9;text-anchor:middle;dominant-baseline:middle}
+.alab{font:800 13px 'Nunito',sans-serif;fill:#c0262d;text-anchor:middle;dominant-baseline:middle}
+.dot{fill:#e5484d;stroke:#fff;stroke-width:2}
+.t1{fill:rgba(47,123,237,.5)}.t2{fill:rgba(15,181,174,.55)}.t3{fill:rgba(39,195,138,.55)}.t4{fill:rgba(255,183,3,.6)}
+.t1,.t2,.t3,.t4{stroke:#fff;stroke-width:2}
+ 
+/* bilgi kutuları */
+.info{display:grid;gap:14px;align-content:start}
+.info h3{display:flex;align-items:center;gap:8px}
+.info ul{margin:0;padding-left:1.1rem}
+.info li{margin-bottom:.35rem}
+.maarif{background:linear-gradient(135deg,#eaf5ff,#e6faf2);border:2px solid #cdeee6}
+.maarif .tags{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0}
+.value{background:#fff;border-radius:16px;padding:10px 12px;margin-top:8px;border-left:6px solid var(--teal);font-size:.93rem}
+.emo{display:flex;gap:10px}
+.emo button{font-size:1.8rem;border:2px solid var(--line);background:#fff;border-radius:50%;width:56px;height:56px;cursor:pointer;transition:all .2s}
+.emo button:hover{transform:scale(1.2) rotate(-6deg)}
+.emo button.on{background:#dcf8ec;border-color:var(--green);transform:scale(1.15)}
+ 
+/* araştırma */
+.search{display:flex;gap:10px;max-width:640px;margin:0 auto 14px}
+.search input{flex:1;border:2px solid var(--line);border-radius:999px;padding:.85rem 1.3rem;font:700 1rem 'Nunito',sans-serif;outline:none;transition:border .2s,box-shadow .2s;background:#fff}
+.search input:focus{border-color:var(--teal);box-shadow:0 0 0 5px rgba(15,181,174,.15)}
+.sugs{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-bottom:18px}
+.results{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:14px}
+.res{animation:slideIn .4s ease both}
+.res h3{margin-bottom:.2em}
+.qgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.qcard{cursor:pointer;transition:all .25s;border:2px solid transparent;text-align:left;font:inherit;color:inherit}
+.qcard:hover{transform:translateY(-6px);border-color:var(--teal)}
+.qcard.on{border-color:var(--blue);background:linear-gradient(135deg,#f2f8ff,#effcf7)}
+.qcard .n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--grad);color:#fff;font-weight:900;margin-bottom:8px}
+.ws{margin-top:18px;display:none}
+.ws.on{display:block;animation:slideIn .45s ease}
+.ws label.lbl{display:block;font-weight:900;margin:14px 0 6px}
+textarea{width:100%;border:2px solid var(--line);border-radius:18px;padding:.8rem 1rem;font:700 .98rem 'Nunito',sans-serif;resize:vertical;min-height:70px;outline:none;transition:border .2s}
+textarea:focus{border-color:var(--teal)}
+.mini{display:grid;grid-template-columns:260px 1fr;gap:16px;align-items:start}
+.mini svg{width:100%;background:#f3fcfb;border-radius:18px;border:2px dashed #bfe8e4}
+@media(max-width:700px){.mini{grid-template-columns:1fr}}
+table{border-collapse:separate;border-spacing:0;width:100%;font-weight:700;font-size:.92rem}
+th{background:#e6f8f6;padding:8px;color:#0a8f8a}
+td{padding:8px;text-align:center;border-bottom:1px solid #e3f3f3}
+th:first-child{border-radius:14px 0 0 14px}th:last-child{border-radius:0 14px 14px 0}
+td:first-child{text-align:left}
+tr.new td{animation:flash 1s ease}
+@keyframes flash{from{background:#fff3c4}to{background:transparent}}
+.res-pills{display:flex;gap:8px;flex-wrap:wrap}
+.mx td button{width:46px;height:38px;border-radius:999px;border:2px solid var(--line);background:#fff;font:900 1.1rem 'Nunito',sans-serif;cursor:pointer;transition:all .15s}
+.mx td button:hover{transform:scale(1.12)}
+.mx td button.y{background:#dcf8ec;border-color:var(--green);color:#138a5b}
+.mx td button.n{background:#ffe6ec;border-color:#ff9db4;color:#d6336c}
+.mx td button.ok{box-shadow:0 0 0 4px rgba(39,195,138,.35)}
+.mx td button.bad{box-shadow:0 0 0 4px rgba(239,71,111,.35);animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.journal{display:grid;gap:12px;margin-top:12px}
+.jn{display:grid;gap:4px;position:relative;animation:slideIn .4s ease}
+.jn .del{position:absolute;right:14px;top:12px;border:0;background:#fff0f3;color:#d6336c;border-radius:999px;cursor:pointer;font-weight:900;padding:.25rem .7rem}
+.sub-title{display:flex;align-items:center;gap:10px;margin:40px 0 14px}
+.sub-title h3{margin:0;font-size:1.4rem}
+ 
+/* sınav */
+.quiz{max-width:760px;margin:0 auto}
+.bar{height:12px;background:#dff3f1;border-radius:999px;overflow:hidden;margin-bottom:18px}
+.bar i{display:block;height:100%;background:var(--grad);border-radius:999px;transition:width .5s cubic-bezier(.3,1.4,.5,1)}
+.opts{display:grid;gap:10px;margin:16px 0}
+.opt{border:2px solid var(--line);background:#fff;border-radius:999px;padding:.85rem 1.3rem;text-align:left;font:800 1rem 'Nunito',sans-serif;cursor:pointer;transition:all .2s;color:var(--ink)}
+.opt:hover:not(:disabled){transform:translateX(8px);border-color:var(--teal)}
+.opt.ok{background:#dcf8ec;border-color:var(--green);animation:bounce .5s}
+.opt.bad{background:#ffe6ec;border-color:#ff9db4;animation:shake .4s}
+@keyframes bounce{40%{transform:scale(1.05)}}
+.expl{background:#f1fbfa;border-radius:18px;padding:12px 16px;font-weight:700;animation:slideIn .3s}
+.score{font-size:4rem;font-weight:900;text-align:center}
+ 
+/* profil */
+.prof{display:grid;grid-template-columns:.8fr 1.2fr;gap:20px}
+@media(max-width:820px){.prof{grid-template-columns:1fr}}
+.big-av{width:90px;height:90px;font-size:2.2rem;margin:0 auto 10px}
+.xpbar{height:16px;background:#dff3f1;border-radius:999px;overflow:hidden;margin:8px 0}
+.xpbar i{display:block;height:100%;background:var(--grad);border-radius:999px;transition:width .8s cubic-bezier(.3,1.3,.5,1)}
+.badges{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px}
+.badge{text-align:center;padding:14px 8px;border-radius:20px;background:#f3f6f7;filter:grayscale(1);opacity:.6;transition:all .3s}
+.badge.got{filter:none;opacity:1;background:linear-gradient(135deg,#e8f3ff,#e2faf0);animation:pop 2.4s ease-in-out infinite}
+.badge b{display:block;font-size:2rem}
+.badge small{font-weight:800}
+.prog{display:grid;gap:10px;margin:14px 0}
+.prog div{display:flex;justify-content:space-between;background:#f1fbfa;padding:.55rem 1rem;border-radius:999px;font-weight:800}
+ 
+/* giriş penceresi */
+dialog{border:0;border-radius:32px;padding:0;max-width:430px;width:92vw;box-shadow:0 30px 80px rgba(8,60,80,.35);overflow:hidden}
+dialog::backdrop{background:rgba(8,50,70,.45);backdrop-filter:blur(4px)}
+dialog[open]{animation:dlg .35s cubic-bezier(.3,1.4,.5,1)}
+@keyframes dlg{from{opacity:0;transform:scale(.85) translateY(20px)}}
+.dlg-top{background:var(--grad);color:#fff;padding:24px 26px 18px}
+.dlg-top h2{margin:0;font-size:1.5rem}
+.dlg-body{padding:20px 26px 26px;display:grid;gap:12px}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:#e6f4f3;border-radius:999px;padding:4px}
+.seg button{border:0;background:transparent;border-radius:999px;padding:.55rem;font:900 .95rem 'Nunito',sans-serif;cursor:pointer;color:var(--muted);transition:all .25s}
+.seg button.on{background:#fff;color:#0a8f8a;box-shadow:0 3px 10px rgba(0,0,0,.1)}
+.fld{display:grid;gap:4px;font-weight:800;font-size:.9rem}
+.fld input{border:2px solid var(--line);border-radius:999px;padding:.75rem 1.1rem;font:700 1rem 'Nunito',sans-serif;outline:none;transition:border .2s,box-shadow .2s}
+.fld input:focus{border-color:var(--teal);box-shadow:0 0 0 4px rgba(15,181,174,.15)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px;border:2px solid #dadce0;background:#fff;border-radius:999px;padding:.7rem;font:800 1rem 'Nunito',sans-serif;cursor:pointer;transition:all .2s;color:#3c4043}
+.gbtn:hover{background:#f7f9fa;box-shadow:0 4px 14px rgba(0,0,0,.12);transform:translateY(-2px)}
+.gbtn svg{width:22px;height:22px}
+.or{text-align:center;color:var(--muted);font-weight:800;font-size:.85rem}
+.err{color:#d6336c;font-weight:800;min-height:20px;font-size:.9rem}
+.demo-note{background:#fff8e1;border-radius:16px;padding:8px 12px;font-size:.82rem;font-weight:700;color:#8a6100}
+.linkbtn{background:none;border:0;color:#1b63c9;font-weight:800;cursor:pointer;font-family:inherit;padding:0;text-align:left}
+.xbtn{position:absolute;right:16px;top:14px;border:0;background:rgba(255,255,255,.25);color:#fff;width:34px;height:34px;border-radius:50%;font-size:1.1rem;cursor:pointer;font-weight:900}
+ 
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120px);background:#0b2b3b;color:#fff;padding:.7rem 1.4rem;border-radius:999px;font-weight:800;z-index:200;transition:transform .45s cubic-bezier(.3,1.4,.5,1);box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:92vw;text-align:center}
+#toast.show{transform:translate(-50%,0)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:150;width:100%;height:100%}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+footer{text-align:center;color:var(--muted);padding:30px 20px 50px;font-weight:700}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<canvas id="confetti"></canvas>
+<div class="bg-shapes" id="bgShapes" aria-hidden="true"></div>
+ 
+<header class="nav">
+  <div class="nav-in">
+    <a class="logo" href="#home"><i></i> Dörtgen Atölyesi</a>
+    <nav class="links" id="links">
+      <a href="#home" data-s="home">Ana Sayfa</a>
+      <a href="#topics" data-s="topics">Konular</a>
+      <a href="#research" data-s="research">Araştır</a>
+      <a href="#quiz" data-s="quiz">Sınav</a>
+      <a href="#profile" data-s="profile">Profilim</a>
+    </nav>
+    <div id="navUser"></div>
+  </div>
+</header>
+ 
+<main>
+<section id="home" class="hero">
+  <div>
+    <span class="eyebrow">11. Sınıf • Dörtgenler • Maarif Modeli</span>
+    <h1>Dörtgenleri <span class="grad-text">keşfet, sorgula, kanıtla!</span></h1>
+    <p class="lead">Paralelkenar, eşkenar dörtgen ve yamuk ezberlenmez; <b>denenir, gözlenir, araştırılır</b>. Şekilleri hareket ettir, verilerini topla, kendi sonucuna kendin ulaş.</p>
+    <div class="hero-cta">
+      <button class="btn" data-go="topics">🚀 Keşfetmeye Başla</button>
+      <button class="btn ghost" data-go="research">🔬 Araştırma Laboratuvarı</button>
+    </div>
+    <div class="hero-stats"><span>3 etkileşimli laboratuvar</span><span>4 araştırma sorusu</span><span>Rozetler ve XP</span></div>
+  </div>
+  <div class="morph" id="morph" title="Tıkla: şekil değişsin">
+    <svg viewBox="0 0 300 210" aria-label="Değişen dörtgen animasyonu">
+      <polygon id="hpoly" points="" stroke="#fff" stroke-width="4" stroke-linejoin="round" style="transition:fill .6s"/>
+      <g id="hdots"></g>
+    </svg>
+    <div class="tag" id="htag">Paralelkenar</div>
+  </div>
+</section>
+ 
+<section id="journey" class="reveal">
+  <div class="sec-head">
+    <span class="eyebrow">Öğrenme Yolculuğu</span>
+    <h2>Beş adımda öğren</h2>
+    <p>Maarif modelinin süreç odaklı yaklaşımıyla her konuda aynı yolculuğu yaşarsın.</p>
+  </div>
+  <div class="journey">
+    <div class="step"><span class="ic">🤔</span><b>Merak Et</b><small>Bir soru sor, tahmin yap.</small></div>
+    <div class="step"><span class="ic">🧪</span><b>Keşfet</b><small>Şekli değiştir, ölç, gözle.</small></div>
+    <div class="step"><span class="ic">🗣️</span><b>Açıkla</b><small>Bulgularını kendi cümlelerinle yaz.</small></div>
+    <div class="step"><span class="ic">🧩</span><b>Uygula</b><small>Sınavda problem çöz.</small></div>
+    <div class="step"><span class="ic">🪞</span><b>Yansıt</b><small>Nasıl öğrendiğini değerlendir.</small></div>
+  </div>
+</section>
+ 
+<section id="topics" class="reveal">
+  <div class="sec-head">
+    <span class="eyebrow">Konular</span>
+    <h2>Etkileşimli Laboratuvarlar</h2>
+    <p>Kaydırıcıları oynat, düğmelere bas. Formüller şeklin üzerinde canlı olarak değişir.</p>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div id="panels"></div>
+</section>
+ 
+<section id="research" class="reveal">
+  <div class="sec-head">
+    <span class="eyebrow">Araştırma Merkezi</span>
+    <h2>Bilgiye araştırarak ulaş</h2>
+    <p>Kavram ara, araştırma sorusu seç, veri topla, tahminini sına ve araştırma günlüğüne kaydet.</p>
+  </div>
+ 
+  <div class="search">
+    <input id="q" type="search" placeholder="Bir kavram ara: köşegen, orta taban, yükseklik..." autocomplete="off">
+    <button class="btn" id="qBtn">🔎 Ara</button>
+  </div>
+  <div class="sugs" id="sugs"></div>
+  <div class="results" id="results"></div>
+ 
+  <div class="sub-title"><span class="pill teal">Soru Temelli Araştırma</span><h3>Araştırma soruları</h3></div>
+  <div class="qgrid" id="qgrid"></div>
+  <div class="card ws" id="ws"></div>
+ 
+  <div class="sub-title"><span class="pill green">Sınıflandırma Etkinliği</span><h3>Özellik Avı</h3></div>
+  <div class="card">
+    <p>Her özellik için hangi dörtgenlerde <b>her zaman</b> doğru olduğunu işaretle. Düğmeye bir kez basarsan ✓, iki kez basarsan ✗ olur. (Yamuk için genel yamuğu düşün.)</p>
+    <div style="overflow-x:auto"><table class="mx" id="mx"></table></div>
+    <div class="row" style="margin-top:14px"><button class="btn" id="mxCheck">✅ Kontrol et</button><button class="btn ghost" id="mxReset">↺ Temizle</button><span class="note" id="mxNote"></span></div>
+  </div>
+ 
+  <div class="sub-title"><span class="pill">Araştırma Günlüğüm</span><h3>Kaydettiklerim</h3></div>
+  <div class="journal" id="journal"></div>
+</section>
+ 
+<section id="quiz" class="reveal">
+  <div class="sec-head">
+    <span class="eyebrow">Uygula</span>
+    <h2>Mini Sınav</h2>
+    <p>8 soruluk beceri kontrolü. Her doğru cevap 10 XP kazandırır.</p>
+  </div>
+  <div class="quiz card" id="quizBox"></div>
+</section>
+ 
+<section id="profile" class="reveal">
+  <div class="sec-head">
+    <span class="eyebrow">Profilim</span>
+    <h2>Gelişim Yolculuğum</h2>
+  </div>
+  <div class="prof" id="profBox"></div>
+</section>
+</main>
+ 
+<footer>Dörtgen Atölyesi • Keşfederek öğren 💙💚</footer>
+ 
+<dialog id="auth">
+  <div class="dlg-top">
+    <button class="xbtn" id="authClose" aria-label="Kapat">✕</button>
+    <h2 id="authTitle">Hoş geldin!</h2>
+    <div style="opacity:.9;font-weight:700">İlerlemen ve araştırma günlüğün hesabında saklanır.</div>
+  </div>
+  <div class="dlg-body">
+    <div class="seg"><button id="segIn" class="on" type="button">Giriş Yap</button><button id="segUp" type="button">Kayıt Ol</button></div>
+    <button class="gbtn" id="gBtn" type="button">
+      <svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      Google ile devam et
+    </button>
+    <div class="or">veya e-posta ile</div>
+    <form id="authForm" class="dlg-body" style="padding:0" novalidate>
+      <label class="fld" id="nameFld" style="display:none">Ad Soyad<input id="aName" type="text" autocomplete="name" placeholder="Adın Soyadın"></label>
+      <label class="fld">E-posta<input id="aMail" type="email" autocomplete="email" placeholder="ornek@gmail.com"></label>
+      <label class="fld">Şifre<input id="aPass" type="password" autocomplete="current-password" placeholder="En az 6 karakter"></label>
+      <div class="err" id="aErr" role="alert"></div>
+      <button class="btn" id="aSubmit" type="submit">Giriş Yap</button>
+      <button class="linkbtn" id="aReset" type="button">Şifremi unuttum</button>
+      <div class="demo-note" id="demoNote" style="display:none">Demo modu: Firebase ayarı henüz yapılmadı. Hesaplar yalnızca bu tarayıcıda saklanır. Gerçek kayıt için <b>KURULUM.md</b> dosyasındaki adımları izleyin.</div>
+    </form>
+  </div>
+</dialog>
+<div id="toast" role="status" aria-live="polite"></div>
+ 
+<script type="module">
+/* =====================================================================
+   1) FIREBASE AYARI  –  KURULUM.md dosyasındaki adımları izleyip
+      aşağıdaki değerleri kendi projenizden kopyalayın.
+   ===================================================================== */
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "YOUR_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+const FIREBASE_READY = !String(firebaseConfig.apiKey).startsWith("YOUR");
+ 
+/* ---------- yardımcılar ---------- */
+const $ = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+const W = 620, H = 340;
+const fmt = n => n.toLocaleString('tr-TR', {maximumFractionDigits:1});
+const dist = (p,q) => Math.hypot(p[0]-q[0], p[1]-q[1]);
+const mid = (p,q) => [(p[0]+q[0])/2, (p[1]+q[1])/2];
+const P2 = ps => ps.map(p => p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ');
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fit(ps){
+  const xs = ps.map(p=>p[0]), ys = ps.map(p=>p[1]);
+  const dx = (W-(Math.max(...xs)+Math.min(...xs)))/2, dy = (H-(Math.max(...ys)+Math.min(...ys)))/2;
+  return ps.map(p => [p[0]+dx, p[1]+dy]);
+}
+function outward(p, g, d){ const l = Math.hypot(p[0]-g[0], p[1]-g[1]) || 1; return [p[0]+(p[0]-g[0])/l*d, p[1]+(p[1]-g[1])/l*d]; }
+function centroid(ps){ return [ps.reduce((s,p)=>s+p[0],0)/ps.length, ps.reduce((s,p)=>s+p[1],0)/ps.length]; }
+function vlabels(ps, names='ABCD', d=18){ const g = centroid(ps); return ps.map((p,i)=>{ const q = outward(p,g,d); return `<text class="vlab" x="${q[0].toFixed(1)}" y="${q[1].toFixed(1)}">${names[i]}</text>`; }).join(''); }
+function tween(from, to, ms, fn, done){
+  const t0 = performance.now();
+  const step = t => { const k = Math.min(1,(t-t0)/ms); const e = k<.5 ? 2*k*k : 1-Math.pow(-2*k+2,2)/2; fn(from+(to-from)*e); if(k<1) requestAnimationFrame(step); else done && done(); };
+  requestAnimationFrame(step);
+}
+function rightAngle(p, u, v, s=11){ // p köşe, u ve v birim vektörler
+  const a=[p[0]+u[0]*s,p[1]+u[1]*s], b=[a[0]+v[0]*s,a[1]+v[1]*s], c=[p[0]+v[0]*s,p[1]+v[1]*s];
+  return `<polyline class="rt" points="${P2([a,b,c])}"/>`;
+}
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.classList.add('show'); clearTimeout(toast.h); toast.h=setTimeout(()=>t.classList.remove('show'),2600); }
+ 
+/* ---------- konfeti ---------- */
+const cv = $('#confetti'), cx = cv.getContext('2d'); let parts = [];
+function sizeCv(){ cv.width = innerWidth; cv.height = innerHeight; } sizeCv(); addEventListener('resize', sizeCv);
+function confetti(n=140){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cols = ['#2f7bed','#0fb5ae','#27c38a','#ffb703','#7c4dff','#ffffff'];
+  for(let i=0;i<n;i++) parts.push({x:innerWidth/2+(Math.random()-.5)*200,y:innerHeight*.6,vx:(Math.random()-.5)*14,vy:-Math.random()*16-4,s:Math.random()*8+4,c:cols[i%cols.length],r:Math.random()*6,vr:(Math.random()-.5)*.4,l:1});
+  if(parts.length===n) loopConf();
+}
+function loopConf(){
+  cx.clearRect(0,0,cv.width,cv.height);
+  parts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.45;p.vx*=.99;p.r+=p.vr;p.l-=.008;cx.save();cx.globalAlpha=Math.max(p.l,0);cx.translate(p.x,p.y);cx.rotate(p.r);cx.fillStyle=p.c;cx.fillRect(-p.s/2,-p.s/3,p.s,p.s/1.6);cx.restore();});
+  parts = parts.filter(p=>p.l>0&&p.y<innerHeight+40);
+  if(parts.length) requestAnimationFrame(loopConf); else cx.clearRect(0,0,cv.width,cv.height);
+}
+ 
+/* ---------- arka plan şekilleri ---------- */
+(function(){
+  const polys = ['10,90 90,90 70,10 30,10','0,80 70,80 100,10 30,10','50,0 100,50 50,100 0,50'];
+  const cols = ['#2f7bed','#0fb5ae','#27c38a'];
+  let h = '';
+  for(let i=0;i<9;i++){
+    h += `<svg viewBox="0 0 100 100" style="left:${(i*13+4)%95}%;top:${(i*29+7)%90}%;width:${50+(i%4)*24}px;animation-delay:${-i*1.7}s;animation-duration:${12+i}s"><polygon points="${polys[i%3]}" fill="${cols[i%3]}"/></svg>`;
+  }
+  $('#bgShapes').innerHTML = h;
+})();
+ 
+/* ---------- hero dönüşümü ---------- */
+const SHAPES = [
+  {n:'Paralelkenar', c:'#2f7bed', p:[[30,170],[190,170],[270,50],[110,50]]},
+  {n:'Eşkenar Dörtgen', c:'#0fb5ae', p:[[40,170],[170,170],[240,50],[110,50]]},
+  {n:'Yamuk', c:'#27c38a', p:[[50,170],[250,170],[200,50],[100,50]]}
+];
+let hi = 0, hcur = SHAPES[0].p.map(p=>[...p]);
+function drawHero(i){
+  $('#hpoly').setAttribute('points', P2(hcur)); $('#hpoly').style.fill = SHAPES[i].c;
+  $('#hdots').innerHTML = hcur.map((p,j)=>`<circle cx="${p[0]}" cy="${p[1]}" r="9" fill="#fff" stroke="${SHAPES[i].c}" stroke-width="3"/><text x="${p[0]}" y="${p[1]+.5}" font-size="11" font-weight="900" text-anchor="middle" dominant-baseline="middle" fill="#0b2b3b">${'ABCD'[j]}</text>`).join('');
+  $('#htag').textContent = SHAPES[i].n; $('#htag').style.background = SHAPES[i].c;
+}
+function morphTo(i){
+  hi = i; const from = hcur.map(p=>[...p]), to = SHAPES[i].p;
+  tween(0,1,900,k=>{ hcur = from.map((p,j)=>[p[0]+(to[j][0]-p[0])*k, p[1]+(to[j][1]-p[1])*k]); drawHero(i); });
+}
+drawHero(0);
+let heroTimer = setInterval(()=>morphTo((hi+1)%3), 3000);
+$('#morph').addEventListener('click', ()=>{ clearInterval(heroTimer); morphTo((hi+1)%3); heroTimer = setInterval(()=>morphTo((hi+1)%3), 3000); });
+ 
+/* =====================================================================
+   2) DURUM + OTURUM (Firebase veya demo)
+   ===================================================================== */
+const defState = () => ({xp:0, visited:{}, notes:[], quizBest:0, matrixDone:false, reflect:{}, badges:{}});
+let state = defState();
+let user = null;
+let fb = null;
+ 
+async function initFirebase(){
+  const V = '10.12.2', base = `https://www.gstatic.com/firebasejs/${V}/`;
+  const [appM, authM, fsM] = await Promise.all([import(base+'firebase-app.js'), import(base+'firebase-auth.js'), import(base+'firebase-firestore.js')]);
+  const app = appM.initializeApp(firebaseConfig);
+  return { auth: authM.getAuth(app), db: fsM.getFirestore(app), A: authM, F: fsM };
+}
+if (FIREBASE_READY) { try { fb = await initFirebase(); } catch(e){ console.warn('Firebase başlatılamadı, demo moduna geçildi.', e); } }
+ 
+const LS = { get(k,d){ try{ return JSON.parse(localStorage.getItem(k)) ?? d; }catch{ return d; } }, set(k,v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} } };
+const merge = o => Object.assign(defState(), o || {});
+let saveT;
+function saveState(){
+  clearTimeout(saveT);
+  saveT = setTimeout(async ()=>{
+    if(!user){ LS.set('dh_state_guest', state); return; }
+    if(fb){
+      try{ await fb.F.setDoc(fb.F.doc(fb.db,'users',user.uid), {name:user.name, email:user.email, state, updatedAt:Date.now()}); }
+      catch(e){ console.warn(e); toast('Kaydedilemedi: Firestore kurallarını kontrol edin.'); }
+    } else { LS.set('dh_state_'+user.uid, state); }
+  }, 500);
+}
+async function loadState(){
+  if(fb){
+    try{
+      const snap = await fb.F.getDoc(fb.F.doc(fb.db,'users',user.uid));
+      if(snap.exists()) { state = merge(snap.data().state); return; }
+    }catch(e){ console.warn(e); }
+    state = merge(LS.get('dh_state_guest', null) || state); saveState();
+  } else {
+    const s = LS.get('dh_state_'+user.uid, null);
+    if(s) state = merge(s); else { state = merge(LS.get('dh_state_guest', null) || state); saveState(); }
+  }
+}
+async function setUser(u){
+  user = u;
+  if(u) await loadState(); else state = merge(LS.get('dh_state_guest', null));
+  renderAll();
+}
+ 
+async function sha(s){ const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)); return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''); }
+const ERR = {
+  'auth/invalid-email':'E-posta adresi geçersiz görünüyor.',
+  'auth/user-not-found':'Bu e-posta ile kayıtlı hesap bulunamadı.',
+  'auth/wrong-password':'Şifre hatalı.',
+  'auth/invalid-credential':'E-posta veya şifre hatalı.',
+  'auth/email-already-in-use':'Bu e-posta zaten kayıtlı. Giriş yapmayı dene.',
+  'auth/weak-password':'Şifre en az 6 karakter olmalı.',
+  'auth/popup-closed-by-user':'Google penceresi kapatıldı.',
+  'auth/network-request-failed':'İnternet bağlantını kontrol et.',
+  'auth/too-many-requests':'Çok fazla deneme yapıldı, biraz bekle.',
+  'auth/unauthorized-domain':'Bu alan adı Firebase\'de yetkili değil (KURULUM.md).'
+};
+const fbUser = u => u ? {uid:u.uid, name:u.displayName || (u.email||'').split('@')[0], email:u.email} : null;
+ 
+const Auth = {
+  async signUp(name, email, pass){
+    if(fb){
+      const c = await fb.A.createUserWithEmailAndPassword(fb.auth, email, pass);
+      if(name) await fb.A.updateProfile(c.user, {displayName:name});
+      await setUser(fbUser(c.user)); user.name = name || user.name;
+    } else {
+      const users = LS.get('dh_users', {}); const k = email.toLowerCase();
+      if(users[k]) throw {code:'auth/email-already-in-use'};
+      if(pass.length < 6) throw {code:'auth/weak-password'};
+      users[k] = {name, hash: await sha(pass)}; LS.set('dh_users', users);
+      LS.set('dh_session', k); await setUser({uid:k, name: name || k.split('@')[0], email:k});
+    }
+  },
+  async signIn(email, pass){
+    if(fb){ const c = await fb.A.signInWithEmailAndPassword(fb.auth, email, pass); await setUser(fbUser(c.user)); }
+    else {
+      const users = LS.get('dh_users', {}); const k = email.toLowerCase(); const u = users[k];
+      if(!u) throw {code:'auth/user-not-found'};
+      if(u.hash !== await sha(pass)) throw {code:'auth/wrong-password'};
+      LS.set('dh_session', k); await setUser({uid:k, name:u.name || k.split('@')[0], email:k});
+    }
+  },
+  async google(){
+    if(fb){ const c = await fb.A.signInWithPopup(fb.auth, new fb.A.GoogleAuthProvider()); await setUser(fbUser(c.user)); }
+    else {
+      const em = prompt('Demo: Google hesabı e-postası (gerçek Google girişi için Firebase ayarı gerekir)'); if(!em) throw {code:'auth/popup-closed-by-user'};
+      const k = em.trim().toLowerCase(); LS.set('dh_session', k); await setUser({uid:k, name:k.split('@')[0], email:k});
+    }
+  },
+  async reset(email){
+    if(!fb) throw {message:'Demo modunda şifre sıfırlama yok.'};
+    await fb.A.sendPasswordResetEmail(fb.auth, email);
+  },
+  async out(){
+    if(fb) await fb.A.signOut(fb.auth); else LS.set('dh_session', null);
+    await setUser(null);
+  }
+};
+ 
+/* =====================================================================
+   3) XP, ROZET, NAV
+   ===================================================================== */
+const BADGES = [
+  {id:'explorer', ic:'🧭', n:'Keşif Ustası', d:'3 konuyu da gezdin', ok:s=>Object.keys(s.visited).length>=3},
+  {id:'researcher', ic:'🔬', n:'Araştırmacı', d:'3 araştırma kaydı', ok:s=>s.notes.length>=3},
+  {id:'detective', ic:'🕵️', n:'Özellik Avcısı', d:'Özellik avını tamamladın', ok:s=>s.matrixDone},
+  {id:'star', ic:'⭐', n:'Matematik Yıldızı', d:'Sınavda 7/8 ve üstü', ok:s=>s.quizBest>=7},
+  {id:'mirror', ic:'🪞', n:'Yansıtan Zihin', d:'3 konuda öz değerlendirme', ok:s=>Object.keys(s.reflect).length>=3}
+];
+function addXP(n, why){
+  state.xp += n; if(why) toast(`+${n} XP • ${why}`);
+  BADGES.forEach(b=>{ if(!state.badges[b.id] && b.ok(state)){ state.badges[b.id] = true; setTimeout(()=>{ toast(`🏅 Yeni rozet: ${b.n}`); confetti(120); }, 1200); } });
+  saveState(); renderNav(); renderProfile();
+}
+const level = () => Math.floor(state.xp/100)+1;
+ 
+function renderNav(){
+  const box = $('#navUser');
+  if(user){
+    box.innerHTML = `<button class="user-chip" id="uChip"><span class="avatar">${esc((user.name||'?')[0].toUpperCase())}</span>Sv.${level()} • ${state.xp} XP</button>`;
+    $('#uChip').onclick = () => $('#profile').scrollIntoView();
+  } else {
+    box.innerHTML = `<button class="btn small" id="loginBtn">Giriş / Kayıt</button>`;
+    $('#loginBtn').onclick = openAuth;
+  }
+  addRipples();
+}
+function addRipples(){
+  $$('.btn').forEach(b=>{ if(b._r) return; b._r = 1; b.addEventListener('click', e=>{
+    const r = b.getBoundingClientRect(), s = Math.max(r.width,r.height), el = document.createElement('span');
+    el.className='ripple'; el.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX-r.left-s/2}px;top:${e.clientY-r.top-s/2}px`;
+    b.appendChild(el); setTimeout(()=>el.remove(),650);
+  }); });
+}
+$$('[data-go]').forEach(b=>b.addEventListener('click',()=>$('#'+b.dataset.go).scrollIntoView()));
+ 
+/* aktif menü + görünme animasyonu */
+const secObs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ $$('#links a').forEach(a=>a.classList.toggle('act', a.dataset.s===e.target.id)); } }), {rootMargin:'-40% 0px -55% 0px'});
+['home','topics','research','quiz','profile'].forEach(id=>secObs.observe($('#'+id)));
+const revObs = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); revObs.unobserve(e.target); } }), {threshold:.08});
+$$('.reveal').forEach(el=>revObs.observe(el));
+ 
+/* =====================================================================
+   4) KONULAR  (paralelkenar, eşkenar dörtgen, yamuk)
+   ===================================================================== */
+const TOPICS = {
+  para:{ name:'Paralelkenar', ic:'▱',
+    out:'Paralelkenarın özelliklerini keşfeder; kenar, açı, köşegen ve alan ilişkilerini gerekçelendirerek problem çözer.',
+    skills:['Matematiksel muhakeme','Problem çözme','Matematiksel modelleme'],
+    value:['Sabır','Şekli değiştirirken gözlemlerimi not alır, acele sonuca varmam.'],
+    def:'Karşılıklı kenarları paralel olan dörtgendir.',
+    props:['Karşılıklı kenarlar eşittir.','Karşılıklı açılar eşittir.','Ardışık açılar bütünlerdir (toplamı 180°).','Köşegenler birbirini ortalar.','Alan = taban × yükseklik','Çevre = 2(a + b)'] },
+  rhomb:{ name:'Eşkenar Dörtgen', ic:'◇',
+    out:'Eşkenar dörtgenin köşegen ve açı özelliklerini araştırır; alan ve çevre bağıntılarını farklı gösterimlerle açıklar.',
+    skills:['Geometrik düşünme','Akıl yürütme','Örüntü tanıma'],
+    value:['Bilimsellik','Bir iddiayı farklı örneklerle sınar, kanıta dayalı karar veririm.'],
+    def:'Dört kenarı da eşit uzunlukta olan paralelkenardır.',
+    props:['Köşegenler birbirini ortalar ve dik keser.','Köşegenler köşe açılarının açıortayıdır.','Alan = (d₁ · d₂) / 2','Çevre = 4a','a² = (d₁/2)² + (d₂/2)²','d₁ = d₂ olursa şekil karedir.'] },
+  trap:{ name:'Yamuk', ic:'⏢',
+    out:'Yamuğun taban, yan kenar, orta taban ve yükseklik ilişkilerini inceler; alan formülünü paralelkenara dönüştürerek çıkarır.',
+    skills:['Dönüşüm geometrisi','Çıkarım yapma','Bağlantı kurma'],
+    value:['Çalışkanlık','Zor görünen bir şekli parçalara ayırarak çözmeye devam ederim.'],
+    def:'Yalnızca bir çift kenarı paralel olan dörtgendir. Paralel kenarlara taban denir.',
+    props:['Orta taban tabanlara paraleldir.','Orta taban = (a + c) / 2','Alan = (a + c) · h / 2','İkizkenar yamukta yan kenarlar eşittir.','İkizkenar yamukta köşegenler eşittir.','Aynı yan kenardaki açılar bütünlerdir.'] }
+};
+ 
+function panelHTML(k){
+  const T = TOPICS[k];
+  return `<div class="panel" id="panel-${k}">
+    <div class="card">
+      <div class="lab-head"><h3>${T.ic} ${T.name} Laboratuvarı</h3><span class="pill">Değiştir • Gözle • Sonuç çıkar</span></div>
+      <svg id="svg-${k}" class="stage" viewBox="0 0 ${W} ${H}" role="img" aria-label="${T.name} etkileşimli çizimi"></svg>
+      <div class="metrics" id="met-${k}"></div>
+      <div class="formula" id="frm-${k}"></div>
+      <div class="controls" id="ctl-${k}"></div>
+      <div class="note" id="note-${k}"></div>
+    </div>
+    <div class="info">
+      <div class="card"><h3>📘 Tanım</h3><p>${T.def}</p><h3>✨ Özellikler</h3><ul>${T.props.map(p=>`<li>${p}</li>`).join('')}</ul></div>
+      <div class="card maarif">
+        <h3>🎯 Öğrenme Çıktısı</h3><p>${T.out}</p>
+        <div class="tags">${T.skills.map(s=>`<span class="pill teal">${s}</span>`).join('')}</div>
+        <div class="value"><b>💎 Değer: ${T.value[0]}</b><br>Eylem: ${T.value[1]}</div>
+      </div>
+      <div class="card"><h3>🪞 Yansıt</h3><p>Bu konuyu ne kadar anladım?</p>
+        <div class="emo" data-k="${k}"><button data-v="1" aria-label="Zorlandım">😕</button><button data-v="2" aria-label="Fena değil">🙂</button><button data-v="3" aria-label="Çok iyi">🤩</button></div>
+      </div>
+    </div>
+  </div>`;
+}
+$('#tabs').innerHTML = Object.keys(TOPICS).map(k=>`<button class="tab" data-k="${k}"><span>${TOPICS[k].ic}</span>${TOPICS[k].name}</button>`).join('');
+$('#panels').innerHTML = Object.keys(TOPICS).map(panelHTML).join('');
+ 
+function openTopic(k, scroll){
+  $$('.tab').forEach(t=>t.classList.toggle('on', t.dataset.k===k));
+  $$('.panel').forEach(p=>p.classList.toggle('on', p.id==='panel-'+k));
+  if(!state.visited[k]){ state.visited[k] = true; addXP(10, `${TOPICS[k].name} keşfedildi`); }
+  if(scroll) $('#topics').scrollIntoView();
+}
+$$('.tab').forEach(t=>t.addEventListener('click',()=>openTopic(t.dataset.k)));
+$$('.emo').forEach(box=>box.addEventListener('click',e=>{
+  const b = e.target.closest('button'); if(!b) return; const k = box.dataset.k;
+  const first = !state.reflect[k]; state.reflect[k] = +b.dataset.v;
+  $$('button', box).forEach(x=>x.classList.toggle('on', x===b));
+  if(first) addXP(5, 'Öz değerlendirme'); else saveState();
+}));
+ 
+/* kontrol üreticileri */
+function mkSlider(cont, o){
+  const id = 's'+Math.random().toString(36).slice(2,7);
+  const d = document.createElement('div'); d.className='sl';
+  d.innerHTML = `<label for="${id}">${o.label}</label><input id="${id}" type="range" min="${o.min}" max="${o.max}" step="${o.step}" value="${o.val}"><output>${fmt(o.val)}${o.unit||''}</output>`;
+  cont.appendChild(d);
+  const inp = $('input', d), out = $('output', d);
+  inp.addEventListener('input', ()=>{ out.textContent = fmt(+inp.value)+(o.unit||''); o.on(+inp.value); });
+  inp.set = v => { inp.value = v; out.textContent = fmt(+v)+(o.unit||''); };
+  return inp;
+}
+function mkChips(cont, items){ // [{label,on,cb}]
+  const r = document.createElement('div'); r.className='row'; cont.appendChild(r);
+  return items.map(it=>{ const b = document.createElement(it.btn?'button':'button'); b.type='button'; b.className = it.btn ? 'btn small'+(it.ghost?' ghost':'') : 'chip'+(it.on?' on':''); b.textContent = it.label;
+    b.addEventListener('click',()=>{ if(!it.btn){ b.classList.toggle('on'); it.cb(b.classList.contains('on'), b); } else it.cb(b); }); r.appendChild(b); return b; });
+}
+function metrics(k, arr){ $('#met-'+k).innerHTML = arr.map(([v,l])=>`<div class="m"><b>${v}</b><span>${l}</span></div>`).join(''); }
+ 
+/* ----- Paralelkenar ----- */
+const PA = {a:8, b:4, al:60, diag:true, hgt:true, ang:true, t:0, cut:false, busy:false};
+function renderPara(){
+  const s = 36, r = PA.al*Math.PI/180;
+  let A=[0,0], B=[PA.a*s,0], D=[PA.b*s*Math.cos(r), -PA.b*s*Math.sin(r)], C=[B[0]+D[0], D[1]];
+  [A,B,C,D] = fit([A,B,C,D]);
+  const h = PA.b*Math.sin(r), area = PA.a*h, AC = dist(A,C)/s, BD = dist(B,D)/s;
+  const O = mid(A,C), Hf = [D[0], A[1]];
+  let g = `<polygon class="shape para" points="${P2([A,B,C,D])}"/>`;
+  if(PA.cut){
+    g += `<rect class="ghost" x="${Hf[0].toFixed(1)}" y="${D[1].toFixed(1)}" width="${(PA.a*s).toFixed(1)}" height="${(h*s).toFixed(1)}"/>`;
+    g += `<polygon class="tri" points="${P2([A,Hf,D])}" transform="translate(${(PA.t*PA.a*s).toFixed(1)} 0)"/>`;
+  }
+  if(PA.hgt){
+    const lo = Math.min(A[0],Hf[0]), hi2 = Math.max(B[0],Hf[0]);
+    g += `<line class="dash" x1="${lo}" y1="${A[1]}" x2="${hi2}" y2="${A[1]}" opacity=".25"/><line class="dash" x1="${D[0]}" y1="${D[1]}" x2="${Hf[0]}" y2="${Hf[1]}"/>`;
+    const sx = (B[0]-Hf[0]) > 14 ? 1 : -1; g += rightAngle(Hf,[sx,0],[0,-1]);
+    g += `<text class="slab" x="${(Hf[0]+(sx>0?-14:14)).toFixed(1)}" y="${((D[1]+Hf[1])/2).toFixed(1)}">h</text>`;
+  }
+  if(PA.diag){
+    g += `<line class="diag" x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}"/><line class="diag" x1="${B[0]}" y1="${B[1]}" x2="${D[0]}" y2="${D[1]}"/><circle class="dot" cx="${O[0]}" cy="${O[1]}" r="6"/><text class="alab" x="${O[0]+14}" y="${O[1]-12}">O</text>`;
+  }
+  if(PA.ang){
+    const m1 = r/2, m2 = (Math.PI+r)/2;
+    g += `<path class="arc" d="M${A[0]+26} ${A[1]} A26 26 0 0 0 ${(A[0]+26*Math.cos(r)).toFixed(1)} ${(A[1]-26*Math.sin(r)).toFixed(1)}"/>
+      <text class="alab" x="${(A[0]+46*Math.cos(m1)).toFixed(1)}" y="${(A[1]-46*Math.sin(m1)).toFixed(1)}">${fmt(PA.al)}°</text>
+      <path class="arc" d="M${B[0]-26} ${B[1]} A26 26 0 0 1 ${(B[0]+26*Math.cos(r)).toFixed(1)} ${(B[1]-26*Math.sin(r)).toFixed(1)}"/>
+      <text class="alab" x="${(B[0]+50*Math.cos(m2)).toFixed(1)}" y="${(B[1]-50*Math.sin(m2)).toFixed(1)}">${fmt(180-PA.al)}°</text>`;
+  }
+  g += `<text class="slab" x="${((A[0]+B[0])/2).toFixed(1)}" y="${A[1]+22}">a = ${fmt(PA.a)}</text>`;
+  const mAD = mid(A,D), nAD = outward(mAD, centroid([A,B,C,D]), 20); g += `<text class="slab" x="${nAD[0].toFixed(1)}" y="${nAD[1].toFixed(1)}">b = ${fmt(PA.b)}</text>`;
+  g += vlabels([A,B,C,D]);
+  $('#svg-para').innerHTML = g;
+  metrics('para', [[fmt(area),'Alan'],[fmt(2*(PA.a+PA.b)),'Çevre'],[fmt(h),'Yükseklik h'],[fmt(AC),'|AC|'],[fmt(BD),'|BD|']]);
+  $('#frm-para').innerHTML = `Alan = a · h = ${fmt(PA.a)} · ${fmt(h)} = <b>${fmt(area)}</b> &nbsp;|&nbsp; ${fmt(PA.al)}° + ${fmt(180-PA.al)}° = 180°`;
+  $('#note-para').textContent = PA.al===90 ? '🎉 Açı 90° oldu: şekil bir dikdörtgen!' : (PA.diag ? `AO = ${fmt(dist(A,O)/s)}, OC = ${fmt(dist(O,C)/s)} → köşegenler birbirini ortalıyor.` : '');
+}
+(function(){
+  const c = $('#ctl-para');
+  mkSlider(c,{label:'Taban a',min:3,max:9,step:1,val:PA.a,on:v=>{PA.a=v;renderPara();}});
+  mkSlider(c,{label:'Yan kenar b',min:2,max:6,step:1,val:PA.b,on:v=>{PA.b=v;renderPara();}});
+  const sl = mkSlider(c,{label:'Açı α',min:30,max:150,step:5,val:PA.al,unit:'°',on:v=>{PA.al=v;renderPara();}});
+  mkChips(c,[
+    {label:'Köşegenler',on:true,cb:v=>{PA.diag=v;renderPara();}},
+    {label:'Yükseklik',on:true,cb:v=>{PA.hgt=v;renderPara();}},
+    {label:'Açılar',on:true,cb:v=>{PA.ang=v;renderPara();}},
+    {btn:1,label:'▶ Kes & Yapıştır (alan keşfi)',cb:b=>{
+      if(PA.busy) return; PA.busy = true;
+      if(PA.t===0){ PA.cut = true; tween(0,1,1800,v=>{PA.t=v;renderPara();},()=>{PA.busy=false;b.textContent='↺ Geri al';toast('Paralelkenar → dikdörtgen: Alan = taban × yükseklik');}); }
+      else { tween(1,0,1200,v=>{PA.t=v;renderPara();},()=>{PA.cut=false;PA.busy=false;b.textContent='▶ Kes & Yapıştır (alan keşfi)';renderPara();}); }
+    }},
+    {btn:1,ghost:1,label:'🎬 Açıyı oynat',cb:()=>{ if(PA.busy) return; PA.busy=true; const f=PA.al; tween(30,150,2600,v=>{PA.al=Math.round(v);sl.set(PA.al);renderPara();},()=>{ tween(150,f,900,v=>{PA.al=Math.round(v/5)*5;sl.set(PA.al);renderPara();},()=>{PA.busy=false;}); }); }}
+  ]);
+  renderPara();
+})();
+ 
+/* ----- Eşkenar dörtgen ----- */
+const RH = {d1:8, d2:5, rot:0, split:0, tri:false, busy:false, rt:true};
+function renderRhomb(){
+  const s = 28, th = RH.rot*Math.PI/180, O = [W/2, H/2];
+  const rp = p => { const x=p[0]-O[0], y=p[1]-O[1], c=Math.cos(th), si=Math.sin(th); return [O[0]+x*c-y*si, O[1]+x*si+y*c]; };
+  const A = rp([O[0]-RH.d1*s/2,O[1]]), C = rp([O[0]+RH.d1*s/2,O[1]]), B = rp([O[0],O[1]-RH.d2*s/2]), D = rp([O[0],O[1]+RH.d2*s/2]);
+  const a = Math.hypot(RH.d1, RH.d2)/2, area = RH.d1*RH.d2/2, angA = 2*Math.atan(RH.d2/RH.d1)*180/Math.PI;
+  let g = '';
+  if(RH.tri){
+    [[A,B,'t1'],[B,C,'t2'],[C,D,'t3'],[D,A,'t4']].forEach(([p,q,cl])=>{
+      const gc = centroid([O,p,q]), v = [gc[0]-O[0], gc[1]-O[1]], l = Math.hypot(...v)||1, off = RH.split*26;
+      g += `<polygon class="${cl}" points="${P2([O,p,q])}" transform="translate(${(v[0]/l*off).toFixed(1)} ${(v[1]/l*off).toFixed(1)})"/>`;
+    });
+  } else g += `<polygon class="shape rhomb" points="${P2([A,B,C,D])}"/>`;
+  if(RH.split<.05) g += `<polygon fill="none" stroke="#0fb5ae" stroke-width="3.5" stroke-linejoin="round" points="${P2([A,B,C,D])}"/>`;
+  g += `<line class="diag" x1="${A[0]}" y1="${A[1]}" x2="${C[0]}" y2="${C[1]}" style="opacity:${1-RH.split}"/><line class="diag" x1="${B[0]}" y1="${B[1]}" x2="${D[0]}" y2="${D[1]}" style="opacity:${1-RH.split}"/>`;
+  if(RH.split<.05){
+    const u = [(C[0]-O[0])/(dist(C,O)||1),(C[1]-O[1])/(dist(C,O)||1)], v = [(B[0]-O[0])/(dist(B,O)||1),(B[1]-O[1])/(dist(B,O)||1)];
+    if(RH.rt) g += rightAngle(O,u,v,12);
+    g += `<circle class="dot" cx="${O[0]}" cy="${O[1]}" r="5"/>`;
+    const mAC = mid(A,C), mBD = mid(B,D);
+    g += `<text class="slab" x="${mid(A,O)[0]+u[1]*-16}" y="${mid(A,O)[1]+u[0]*16}">d₁/2</text>`;
+    g += `<text class="slab" x="${mid(O,B)[0]+v[1]*-0 + 18}" y="${mid(O,B)[1]}">d₂/2</text>`;
+    const mAB = mid(A,B), nAB = outward(mAB, O, 18); g += `<text class="slab" x="${nAB[0]}" y="${nAB[1]}">a = ${fmt(a)}</text>`;
+  }
+  g += vlabels([A,B,C,D],'ABCD',20);
+  $('#svg-rhomb').innerHTML = g;
+  metrics('rhomb',[[fmt(area),'Alan'],[fmt(a),'Kenar a'],[fmt(4*a),'Çevre'],[fmt(angA)+'°','∠A'],[fmt(180-angA)+'°','∠B']]);
+  $('#frm-rhomb').innerHTML = `Alan = d₁·d₂/2 = ${fmt(RH.d1)}·${fmt(RH.d2)}/2 = <b>${fmt(area)}</b> &nbsp;|&nbsp; a = √(${fmt(RH.d1/2)}² + ${fmt(RH.d2/2)}²) = ${fmt(a)}`;
+  $('#note-rhomb').textContent = RH.d1===RH.d2 ? '🎉 Köşegenler eşit oldu: eşkenar dörtgen artık bir kare!' : (RH.rot ? 'Döndürsen de köşegenler dik kalır.' : '');
+}
+(function(){
+  const c = $('#ctl-rhomb');
+  mkSlider(c,{label:'Köşegen d₁',min:2,max:10,step:1,val:RH.d1,on:v=>{RH.d1=v;renderRhomb();}});
+  mkSlider(c,{label:'Köşegen d₂',min:2,max:8,step:1,val:RH.d2,on:v=>{RH.d2=v;renderRhomb();}});
+  mkSlider(c,{label:'Döndür',min:0,max:360,step:5,val:0,unit:'°',on:v=>{RH.rot=v;renderRhomb();}});
+  mkChips(c,[
+    {label:'4 eş üçgen',on:false,cb:v=>{RH.tri=v;RH.split=0;renderRhomb();}},
+    {btn:1,label:'💥 Üçgenleri ayır',cb:b=>{
+      if(RH.busy) return; RH.busy = true;
+      if(!RH.tri){ RH.tri = true; $$('.chip',$('#ctl-rhomb')).forEach(x=>{ if(x.textContent==='4 eş üçgen') x.classList.add('on'); }); }
+      const to = RH.split<.5 ? 1 : 0;
+      tween(RH.split,to,1100,v=>{RH.split=v;renderRhomb();},()=>{RH.busy=false; if(to) toast('4 eş dik üçgen: her biri (d₁/2 · d₂/2)/2 alanında');});
+    }},
+    {btn:1,ghost:1,label:'🌀 Döndürerek göster',cb:()=>{ if(RH.busy) return; RH.busy=true; tween(0,360,3000,v=>{RH.rot=v;renderRhomb();},()=>{RH.rot=0;RH.busy=false;renderRhomb();}); }}
+  ]);
+  renderRhomb();
+})();
+ 
+/* ----- Yamuk ----- */
+const TR = {a:8, c:4, h:4, off:1, fold:0, busy:false, mid:true, hgt:true};
+function renderTrap(){
+  const s = 30, {a,c,h,off} = TR;
+  let A=[0,0], B=[a*s,0], D=[off*s,-h*s], C=[(off+c)*s,-h*s];
+  const M0 = mid(B,C), rot = p => [2*M0[0]-p[0], 2*M0[1]-p[1]];
+  const all = fit([A,B,C,D, ...[A,B,C,D].map(rot)]);
+  [A,B,C,D] = all.slice(0,4);
+  const M = mid(B,C), M1 = mid(A,D);
+  const AD = dist(A,D)/s, BC = dist(B,C)/s, area = (a+c)*h/2, ortaT = (a+c)/2, Hf = [D[0],A[1]];
+  let g = '';
+  if(TR.fold>0){
+    g += `<polygon class="tri" points="${P2([A,B,C,D])}" transform="rotate(${(TR.fold*180).toFixed(1)} ${M[0].toFixed(1)} ${M[1].toFixed(1)})" style="fill:rgba(255,183,3,.55)"/>`;
+  }
+  g += `<polygon class="shape trap" points="${P2([A,B,C,D])}" style="${TR.fold>0?'fill:rgba(39,195,138,.45)':''}"/>`;
+  if(TR.fold>=.999){
+    const q = [A, [A[0]+(a+c)*s, A[1]], [D[0]+(a+c)*s, D[1]], D];
+    g += `<polygon class="ghost" points="${P2(q)}"/><text class="slab" x="${((q[0][0]+q[1][0])/2).toFixed(1)}" y="${(A[1]+44).toFixed(1)}">a + c = ${fmt(a+c)}</text>`;
+  }
+  if(TR.hgt){
+    const lo = Math.min(A[0],Hf[0]), hi2 = Math.max(B[0],Hf[0]);
+    if(lo<A[0]||hi2>B[0]) g += `<line class="dash" x1="${lo}" y1="${A[1]}" x2="${hi2}" y2="${A[1]}" opacity=".3"/>`;
+    g += `<line class="dash" x1="${D[0]}" y1="${D[1]}" x2="${Hf[0]}" y2="${Hf[1]}"/>`;
+    const sx = (B[0]-Hf[0])>14?1:-1; g += rightAngle(Hf,[sx,0],[0,-1]);
+    g += `<text class="slab" x="${Hf[0]+(sx>0?-14:14)}" y="${((D[1]+Hf[1])/2).toFixed(1)}">h</text>`;
+  }
+  if(TR.mid && TR.fold===0){
+    g += `<line class="mid" x1="${M1[0]}" y1="${M1[1]}" x2="${M[0]}" y2="${M[1]}"/><circle class="dot" cx="${M1[0]}" cy="${M1[1]}" r="5"/><circle class="dot" cx="${M[0]}" cy="${M[1]}" r="5"/>`;
+    g += `<text class="slab" x="${((M1[0]+M[0])/2).toFixed(1)}" y="${(M1[1]-14).toFixed(1)}" style="fill:#7c4dff">orta taban = ${fmt(ortaT)}</text>`;
+  }
+  if(TR.fold===0){
+    g += `<text class="slab" x="${((A[0]+B[0])/2).toFixed(1)}" y="${A[1]+22}">a = ${fmt(a)}</text><text class="slab" x="${((D[0]+C[0])/2).toFixed(1)}" y="${D[1]-16}">c = ${fmt(c)}</text>`;
+  }
+  g += vlabels([A,B,C,D]);
+  $('#svg-trap').innerHTML = g;
+  metrics('trap',[[fmt(area),'Alan'],[fmt(ortaT),'Orta taban'],[fmt(a+c+AD+BC),'Çevre'],[fmt(AD),'|AD|'],[fmt(BC),'|BC|']]);
+  $('#frm-trap').innerHTML = `Alan = (a + c) · h / 2 = (${fmt(a)} + ${fmt(c)}) · ${fmt(h)} / 2 = <b>${fmt(area)}</b>`;
+  const iso = Math.abs(AD-BC)<1e-6;
+  $('#note-trap').textContent = a===c ? '⚠️ a = c: iki taban eşit olursa şekil artık yamuk değil, paralelkenar olur.' : (iso ? '🎉 Yan kenarlar eşit: ikizkenar yamuk! Köşegenleri de eşittir.' : (TR.fold>=.999 ? 'İki yamuk birleşti: paralelkenar alanı (a + c)·h, yamuk bunun yarısı.' : ''));
+}
+(function(){
+  const c = $('#ctl-trap');
+  const sA = mkSlider(c,{label:'Alt taban a',min:3,max:9,step:1,val:TR.a,on:v=>{TR.a=v;renderTrap();}});
+  const sC = mkSlider(c,{label:'Üst taban c',min:1,max:6,step:1,val:TR.c,on:v=>{TR.c=v;renderTrap();}});
+  mkSlider(c,{label:'Yükseklik h',min:2,max:5,step:1,val:TR.h,on:v=>{TR.h=v;renderTrap();}});
+  const sO = mkSlider(c,{label:'Üst tabanı kaydır',min:-3,max:3,step:.5,val:TR.off,on:v=>{TR.off=v;renderTrap();}});
+  mkChips(c,[
+    {label:'Orta taban',on:true,cb:v=>{TR.mid=v;renderTrap();}},
+    {label:'Yükseklik',on:true,cb:v=>{TR.hgt=v;renderTrap();}},
+    {btn:1,label:'⚖️ İkizkenar yap',cb:()=>{ const o = Math.max(-3,Math.min(3,Math.round((TR.a-TR.c))/2)); TR.off = o; sO.set(o); renderTrap(); }},
+    {btn:1,label:'🔄 Çevir & Birleştir (alan keşfi)',cb:b=>{
+      if(TR.busy) return; TR.busy = true;
+      const to = TR.fold<.5 ? 1 : 0;
+      tween(TR.fold,to,2000,v=>{TR.fold=v;renderTrap();},()=>{TR.busy=false;b.textContent = to ? '↺ Geri al' : '🔄 Çevir & Birleştir (alan keşfi)';});
+    }}
+  ]);
+  renderTrap();
+})();
+ 
+/* =====================================================================
+   5) ARAŞTIRMA MERKEZİ
+   ===================================================================== */
+const GLOSS = [
+  {t:'Köşegen', k:'kosegen diagonal', d:'Dörtgende karşılıklı iki köşeyi birleştiren doğru parçasıdır. Her dörtgenin 2 köşegeni vardır.', r:['para','rhomb','trap']},
+  {t:'Taban', k:'taban base', d:'Yamukta paralel olan kenarlara taban denir. Paralelkenarda yükseklik hangi kenara indirilirse o kenar taban olarak alınır.', r:['trap','para']},
+  {t:'Yükseklik', k:'yukseklik h', d:'Bir tabandan karşı tabana (veya köşeden karşı kenara) indirilen dik doğru parçasının uzunluğudur.', r:['para','trap']},
+  {t:'Orta taban', k:'orta taban median', d:'Yamukta yan kenarların orta noktalarını birleştiren doğru parçasıdır. Tabanlara paraleldir ve uzunluğu tabanların toplamının yarısıdır.', r:['trap']},
+  {t:'Açıortay', k:'aciortay bisector', d:'Bir açıyı iki eş açıya ayıran ışındır. Eşkenar dörtgende köşegenler köşe açılarının açıortayıdır.', r:['rhomb']},
+  {t:'Paralel kenarlar', k:'paralel', d:'Aynı düzlemde olup hiç kesişmeyen doğrular paraleldir. Paralelkenarın karşılıklı kenarları paraleldir.', r:['para','trap']},
+  {t:'İkizkenar yamuk', k:'ikizkenar yamuk', d:'Paralel olmayan kenarları (yan kenarları) eşit uzunlukta olan yamuktur. Taban açıları ve köşegenleri eşittir.', r:['trap']},
+  {t:'Bütünler açılar', k:'butunler acilar ardisik', d:'Ölçüleri toplamı 180° olan iki açıdır. Paralelkenarda ardışık (komşu) açılar bütünlerdir.', r:['para','rhomb']},
+  {t:'Alan', k:'alan area', d:'Bir şeklin düzlemde kapladığı yerin ölçüsüdür. Paralelkenar: taban×yükseklik, eşkenar dörtgen: d₁·d₂/2, yamuk: (a+c)·h/2.', r:['para','rhomb','trap']},
+  {t:'Çevre', k:'cevre perimeter', d:'Bir şeklin tüm kenar uzunluklarının toplamıdır. Eşkenar dörtgende çevre 4a\'dır.', r:['para','rhomb','trap']},
+  {t:'Dik kesişme', k:'dik kesisme', d:'İki doğrunun 90° açıyla kesişmesidir. Eşkenar dörtgenin köşegenleri birbirini dik keser.', r:['rhomb']},
+  {t:'Köşegenlerin ortalanması', k:'ortalama kosegenler', d:'Köşegenlerin kesim noktasında her birinin iki eşit parçaya bölünmesidir. Paralelkenarda ve eşkenar dörtgende görülür.', r:['para','rhomb']},
+  {t:'Karşılıklı kenar', k:'karsilikli kenar', d:'Dörtgende ortak köşesi olmayan iki kenardır. Paralelkenarda karşılıklı kenarlar hem paralel hem eşittir.', r:['para']},
+  {t:'Kare', k:'kare square', d:'Dört kenarı eşit ve bir açısı 90° olan dörtgendir; hem eşkenar dörtgen hem dikdörtgendir.', r:['rhomb']}
+];
+const fold = s => s.toLocaleLowerCase('tr').replace(/ç/g,'c').replace(/ğ/g,'g').replace(/ı/g,'i').replace(/ö/g,'o').replace(/ş/g,'s').replace(/ü/g,'u').replace(/â/g,'a').replace(/₁/g,'1').replace(/₂/g,'2');
+function doSearch(q){
+  const n = fold(q.trim()); let list = GLOSS;
+  if(n) list = GLOSS.filter(x=>fold(x.t+' '+x.k+' '+x.d).includes(n));
+  $('#results').innerHTML = list.length ? list.map((x,i)=>`<div class="card res" style="animation-delay:${i*50}ms"><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p><div class="row">${x.r.map(k=>`<button class="chip" data-open="${k}">${TOPICS[k].name} →</button>`).join('')}</div></div>`).join('')
+    : `<div class="card" style="grid-column:1/-1;text-align:center">“${esc(q)}” için sonuç yok. Başka bir kelime dene: köşegen, yükseklik, alan…</div>`;
+  $$('[data-open]').forEach(b=>b.onclick=()=>openTopic(b.dataset.open,true));
+}
+$('#sugs').innerHTML = ['köşegen','yükseklik','orta taban','açıortay','alan','ikizkenar'].map(s=>`<button class="chip">${s}</button>`).join('');
+$$('#sugs .chip').forEach(b=>b.onclick=()=>{ $('#q').value=b.textContent; doSearch(b.textContent); });
+$('#q').addEventListener('input',e=>doSearch(e.target.value));
+$('#qBtn').onclick = ()=>doSearch($('#q').value);
+doSearch('');
+ 
+/* --- araştırma soruları + mini laboratuvar --- */
+const rnd = (a,b) => a + Math.floor(Math.random()*(b-a+1));
+function intersect(p1,p2,p3,p4){
+  const d = (p1[0]-p2[0])*(p3[1]-p4[1])-(p1[1]-p2[1])*(p3[0]-p4[0]);
+  const x = ((p1[0]*p2[1]-p1[1]*p2[0])*(p3[0]-p4[0])-(p1[0]-p2[0])*(p3[0]*p4[1]-p3[1]*p4[0]))/d;
+  const y = ((p1[0]*p2[1]-p1[1]*p2[0])*(p3[1]-p4[1])-(p1[1]-p2[1])*(p3[0]*p4[1]-p3[1]*p4[0]))/d;
+  return [x,y];
+}
+const GEN = {
+  para(){ const a=rnd(4,8), b=rnd(3,6), al=rnd(8,28)*5, r=al*Math.PI/180; const A=[0,0],B=[a,0],D=[b*Math.cos(r),b*Math.sin(r)],C=[B[0]+D[0],D[1]]; return [A,B,C,D]; },
+  rhomb(){ const d1=rnd(4,10), d2=rnd(3,8), th=rnd(0,35)*5*Math.PI/180; const q=[[-d1/2,0],[0,d2/2],[d1/2,0],[0,-d2/2]]; return q.map(p=>[p[0]*Math.cos(th)-p[1]*Math.sin(th), p[0]*Math.sin(th)+p[1]*Math.cos(th)]); },
+  trap(){ const a=rnd(6,10), c=rnd(2,5), h=rnd(3,5), off=rnd(-1,3); return [[0,0],[a,0],[off+c,h],[off,h]]; }
+};
+const cross = (u,v) => u[0]*v[1]-u[1]*v[0];
+const vec = (p,q) => [q[0]-p[0], q[1]-p[1]];
+const QS = [
+  {id:'q1', type:'para', t:'Paralelkenarın köşegenleri birbirini ortalar mı?', hint:'Birkaç farklı paralelkenar üret ve AO ile OC, BO ile OD değerlerini karşılaştır.',
+    cols:['AO','OC','BO','OD'], m:([A,B,C,D])=>{ const O=intersect(A,C,B,D); return [dist(A,O),dist(O,C),dist(B,O),dist(O,D)].map(x=>fmt(x)); }},
+  {id:'q2', type:'rhomb', t:'Eşkenar dörtgenin köşegenleri arasındaki açı kaç derecedir?', hint:'Şekil dönse de açı değişiyor mu? Kenar uzunluklarına da bak.',
+    cols:['AB','BC','CD','DA','∠(AC,BD)'], m:([A,B,C,D])=>{ const u=vec(A,C), v=vec(B,D); const ang=Math.acos(Math.abs(u[0]*v[0]+u[1]*v[1])/(Math.hypot(...u)*Math.hypot(...v)))*180/Math.PI; return [dist(A,B),dist(B,C),dist(C,D),dist(D,A)].map(x=>fmt(x)).concat([fmt(ang)+'°']); }},
+  {id:'q3', type:'trap', t:'Yamuğun orta tabanı ile tabanları arasında nasıl bir ilişki vardır?', hint:'a, c ve orta taban değerlerini yan yana yaz; toplama, çıkarma veya ortalama dene.',
+    cols:['a','c','Orta taban'], m:([A,B,C,D])=>[dist(A,B),dist(D,C),dist(mid(A,D),mid(B,C))].map(x=>fmt(x))},
+  {id:'q4', type:'rhomb', t:'Her eşkenar dörtgen aynı zamanda bir paralelkenar mıdır?', hint:'Karşılıklı kenarların paralel olup olmadığına (AB ∥ DC, AD ∥ BC) bak.',
+    cols:['AB ∥ DC','AD ∥ BC','AB = BC'], m:([A,B,C,D])=>{ const p=(u,v)=>Math.abs(cross(u,v))<1e-6*Math.hypot(...u)*Math.hypot(...v)?'Evet ✓':'Hayır'; return [p(vec(A,B),vec(D,C)), p(vec(A,D),vec(B,C)), Math.abs(dist(A,B)-dist(B,C))<1e-6?'Evet ✓':'Hayır']; }}
+];
+$('#qgrid').innerHTML = QS.map((q,i)=>`<button class="card qcard" data-q="${q.id}"><span class="n">${i+1}</span><h3>${q.t}</h3><span class="pill ${['','teal','green','teal'][i]}">${TOPICS[q.type].name}</span></button>`).join('');
+let activeQ = null, rows = [];
+function miniSvg(pts){
+  const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), mnx=Math.min(...xs), mxx=Math.max(...xs), mny=Math.min(...ys), mxy=Math.max(...ys);
+  const sc = Math.min(200/(mxx-mnx||1), 110/(mxy-mny||1)), ox = 130-(mxx+mnx)/2*sc, oy = 80+(mxy+mny)/2*sc;
+  const q = pts.map(p=>[p[0]*sc+ox, oy-p[1]*sc]), g = centroid(q);
+  const cls = {para:'para',rhomb:'rhomb',trap:'trap'}[activeQ.type];
+  return `<svg viewBox="0 0 260 160"><polygon class="shape ${cls}" points="${P2(q)}"/>${q.map((p,i)=>{ const l=outward(p,g,14); return `<text class="vlab" style="font-size:14px" x="${l[0]}" y="${l[1]}">${'ABCD'[i]}</text>`; }).join('')}</svg>`;
+}
+function openQuestion(id){
+  activeQ = QS.find(q=>q.id===id); rows = [];
+  $$('.qcard').forEach(c=>c.classList.toggle('on', c.dataset.q===id));
+  const ws = $('#ws'); ws.classList.add('on');
+  ws.innerHTML = `<div class="lab-head"><h3>🤔 ${activeQ.t}</h3><span class="pill">${activeQ.hint}</span></div>
+    <label class="lbl" for="wsGuess">1) Tahminim (hipotez)</label><textarea id="wsGuess" placeholder="Bence… çünkü…"></textarea>
+    <label class="lbl">2) Veri topla – en az 3 şekil incele</label>
+    <div class="mini"><div id="miniBox"></div><div><div style="overflow-x:auto"><table><thead><tr><th>#</th>${activeQ.cols.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody id="miniRows"></tbody></table></div>
+    <div class="row" style="margin-top:12px"><button class="btn small" id="newShape">🎲 Yeni şekil üret</button><span class="pill teal" id="cnt">0 şekil</span></div></div></div>
+    <label class="lbl" for="wsFind">3) Bulgularım ve açıklamam</label><textarea id="wsFind" placeholder="Verilere bakınca şunu fark ettim…"></textarea>
+    <label class="lbl">4) Sonuç: Tahminim…</label>
+    <div class="res-pills" id="resPills"><button class="chip" data-r="Doğru çıktı">✅ Doğru çıktı</button><button class="chip" data-r="Kısmen doğru">🌗 Kısmen doğru</button><button class="chip" data-r="Yanlış çıktı">🔁 Yanlış çıktı</button></div>
+    <div class="row" style="margin-top:16px"><button class="btn" id="saveNote">💾 Günlüğe kaydet (+30 XP)</button></div>`;
+  $('#newShape').onclick = newShape; $$('#resPills .chip').forEach(b=>b.onclick=()=>{ $$('#resPills .chip').forEach(x=>x.classList.toggle('on',x===b)); });
+  $('#saveNote').onclick = saveNote; addRipples(); newShape();
+  ws.scrollIntoView({block:'nearest'});
+}
+function newShape(){
+  const pts = GEN[activeQ.type](); rows.push(activeQ.m(pts));
+  $('#miniBox').innerHTML = miniSvg(pts);
+  const tr = document.createElement('tr'); tr.className='new'; tr.innerHTML = `<td>${rows.length}</td>${rows[rows.length-1].map(v=>`<td>${v}</td>`).join('')}`;
+  $('#miniRows').appendChild(tr); $('#cnt').textContent = rows.length+' şekil';
+}
+function saveNote(){
+  const guess = $('#wsGuess').value.trim(), find = $('#wsFind').value.trim(), res = ($('#resPills .on')||{}).dataset?.r;
+  if(rows.length<3) return toast('Önce en az 3 şekil incele 🎲');
+  if(!guess) return toast('Tahminini yazmayı unutma ✍️');
+  if(!find) return toast('Bulgularını açıkla 🗣️');
+  if(!res) return toast('Sonuç seçeneklerinden birini işaretle');
+  state.notes.unshift({id:Date.now(), q:activeQ.t, guess, find, res, n:rows.length, date:new Date().toLocaleDateString('tr-TR')});
+  addXP(30,'Araştırma kaydedildi'); confetti(70); renderJournal();
+  $('#ws').classList.remove('on'); $$('.qcard').forEach(c=>c.classList.remove('on')); $('#journal').scrollIntoView({block:'center'});
+  if(!user) setTimeout(()=>toast('İlerlemeni her cihazda görmek için giriş yap 💙'),2800);
+}
+$$('.qcard').forEach(c=>c.onclick=()=>openQuestion(c.dataset.q));
+function renderJournal(){
+  $('#journal').innerHTML = state.notes.length ? state.notes.map(n=>`<div class="card jn"><button class="del" data-del="${n.id}">Sil</button><h3 style="padding-right:60px">${esc(n.q)}</h3><div><span class="pill teal">${esc(n.res)}</span> <span class="pill">${n.n} şekil incelendi</span> <small>${n.date}</small></div><p><b>Tahminim:</b> ${esc(n.guess)}</p><p style="margin:0"><b>Bulgularım:</b> ${esc(n.find)}</p></div>`).join('')
+    : `<div class="card" style="text-align:center;color:var(--muted)">Henüz kayıt yok. Yukarıdan bir araştırma sorusu seç 🔬</div>`;
+  $$('[data-del]').forEach(b=>b.onclick=()=>{ state.notes = state.notes.filter(n=>String(n.id)!==b.dataset.del); saveState(); renderJournal(); renderProfile(); });
+}
+ 
+/* --- özellik avı --- */
+const MX_COLS = ['Yamuk','Paralelkenar','Eşkenar dörtgen'];
+const MX_ROWS = [
+  ['Bir çift kenarı paralel',[1,1,1]],
+  ['İki çift kenarı paralel',[0,1,1]],
+  ['Karşılıklı açıları eşit',[0,1,1]],
+  ['Köşegenleri birbirini ortalar',[0,1,1]],
+  ['Dört kenarı eşit',[0,0,1]],
+  ['Köşegenleri dik kesişir',[0,0,1]],
+  ['Köşegenleri köşe açılarının açıortayı',[0,0,1]]
+];
+let mx = MX_ROWS.map(()=>[0,0,0]); // 0 boş, 1 ✓, 2 ✗
+function renderMx(){
+  $('#mx').innerHTML = `<thead><tr><th style="text-align:left">Özellik</th>${MX_COLS.map(c=>`<th>${c}</th>`).join('')}</tr></thead><tbody>${MX_ROWS.map((r,i)=>`<tr><td>${r[0]}</td>${[0,1,2].map(j=>`<td><button data-i="${i}" data-j="${j}" class="${mx[i][j]===1?'y':mx[i][j]===2?'n':''}">${mx[i][j]===1?'✓':mx[i][j]===2?'✗':'·'}</button></td>`).join('')}</tr>`).join('')}</tbody>`;
+  $$('#mx button').forEach(b=>b.onclick=()=>{ const i=+b.dataset.i, j=+b.dataset.j; mx[i][j]=(mx[i][j]+1)%3; renderMx(); $('#mxNote').textContent=''; });
+}
+$('#mxCheck').onclick = ()=>{
+  let ok = 0, tot = MX_ROWS.length*3, empty = 0;
+  $$('#mx button').forEach(b=>{
+    const i=+b.dataset.i, j=+b.dataset.j, v=mx[i][j]; b.classList.remove('ok','bad');
+    if(v===0){ empty++; return; }
+    const right = (v===1) === !!MX_ROWS[i][1][j];
+    b.classList.add(right?'ok':'bad'); if(right) ok++;
+  });
+  if(empty) { $('#mxNote').textContent = `${empty} kutu boş. Hepsini işaretle!`; return; }
+  $('#mxNote').textContent = ok===tot ? '🎉 Mükemmel! Hepsi doğru.' : `${ok}/${tot} doğru. Kırmızıları gözden geçir, laboratuvarda dene!`;
+  if(ok===tot){ confetti(160); if(!state.matrixDone){ state.matrixDone = true; addXP(40,'Özellik avı tamamlandı'); } }
+};
+$('#mxReset').onclick = ()=>{ mx = MX_ROWS.map(()=>[0,0,0]); renderMx(); $('#mxNote').textContent=''; };
+renderMx();
+ 
+/* =====================================================================
+   6) SINAV
+   ===================================================================== */
+const QUIZ = [
+  {q:'Tabanı 8 cm, bu tabana ait yüksekliği 5 cm olan paralelkenarın alanı kaç cm²’dir?', o:['13','26','40','80'], a:2, e:'Alan = taban × yükseklik = 8 · 5 = 40 cm².'},
+  {q:'Köşegen uzunlukları 6 cm ve 8 cm olan eşkenar dörtgenin bir kenarı kaç cm’dir?', o:['4','5','7','10'], a:1, e:'Köşegenler dik kesişip birbirini ortalar: a² = 3² + 4² = 25 ⇒ a = 5.'},
+  {q:'Tabanları 6 cm ve 10 cm, yüksekliği 4 cm olan yamuğun alanı kaç cm²’dir?', o:['24','32','40','64'], a:1, e:'Alan = (6 + 10) · 4 / 2 = 32 cm².'},
+  {q:'Bir paralelkenarın bir açısı 70° ise komşu açısı kaç derecedir?', o:['20°','70°','110°','290°'], a:2, e:'Ardışık açılar bütünlerdir: 180° − 70° = 110°.'},
+  {q:'Çevresi 20 cm olan bir eşkenar dörtgenin bir kenarı kaç cm’dir?', o:['4','5','10','20'], a:1, e:'Dört kenar eşit olduğundan 20 ÷ 4 = 5 cm.'},
+  {q:'Tabanları 7 cm ve 13 cm olan yamuğun orta taban uzunluğu kaç cm’dir?', o:['6','10','13','20'], a:1, e:'Orta taban = (7 + 13) / 2 = 10 cm.'},
+  {q:'Köşegenleri birbirine dik olan bir paralelkenar hangi dörtgendir?', o:['Dikdörtgen','İkizkenar yamuk','Eşkenar dörtgen','Genel yamuk'], a:2, e:'Köşegenleri dik olan paralelkenarın kenarları eşit çıkar; bu bir eşkenar dörtgendir.'},
+  {q:'Aşağıdakilerden hangisi her paralelkenar için doğrudur?', o:['Köşegenleri eşittir','Köşegenleri birbirini ortalar','Köşegenleri diktir','Dört kenarı eşittir'], a:1, e:'Her paralelkenarda köşegenler birbirini ortalar. Diğerleri yalnızca özel paralelkenarlarda doğrudur.'}
+];
+let qz = {i:0, score:0, order:[], done:false};
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function startQuiz(){ qz = {i:0, score:0, done:false, order:QUIZ.map(q=>({...q, opts:shuffle(q.o.map((t,idx)=>({t,ok:idx===q.a})))}))}; renderQuiz(); }
+function renderQuiz(){
+  const box = $('#quizBox');
+  if(qz.i===0 && qz.score===0 && !qz.started){
+    box.innerHTML = `<div style="text-align:center"><div style="font-size:3.5rem">🧠</div><h3>Hazır mısın?</h3><p>${QUIZ.length} soru • En iyi skorun: <b>${state.quizBest}/${QUIZ.length}</b></p><button class="btn" id="qzStart">Başla</button></div>`;
+    $('#qzStart').onclick = ()=>{ qz.started = true; renderQuiz(); }; addRipples(); return;
+  }
+  if(qz.i >= QUIZ.length){
+    const pct = Math.round(qz.score/QUIZ.length*100), gain = Math.max(0, qz.score - state.quizBest);
+    box.innerHTML = `<div style="text-align:center"><div class="score grad-text">${qz.score}/${QUIZ.length}</div><h3>${pct>=80?'Harikasın! 🎉':pct>=50?'İyi gidiyorsun! 💪':'Laboratuvara dönüp tekrar dene 🔬'}</h3><p>%${pct} başarı${gain?` • +${gain*10} XP`:''}</p><button class="btn" id="qzAgain">↺ Tekrar çöz</button></div>`;
+    $('#qzAgain').onclick = ()=>{ qz = {i:0,score:0,order:[],started:true}; startQuiz(); qz.started = true; renderQuiz(); }; addRipples();
+    if(!qz.done){ qz.done = true; if(pct>=80) confetti(180); if(gain){ state.quizBest = qz.score; addXP(gain*10,'Sınav'); } else { saveState(); } renderProfile(); }
+    return;
+  }
+  const q = qz.order[qz.i];
+  box.innerHTML = `<div class="bar"><i style="width:${qz.i/QUIZ.length*100}%"></i></div><span class="pill">Soru ${qz.i+1} / ${QUIZ.length}</span><h3 style="margin-top:10px">${esc(q.q)}</h3><div class="opts">${q.opts.map((o,idx)=>`<button class="opt" data-i="${idx}">${esc(o.t)}</button>`).join('')}</div><div id="qzFb"></div>`;
+  $$('.opt', box).forEach(b=>b.onclick=()=>{
+    const pick = q.opts[+b.dataset.i]; $$('.opt', box).forEach((x,ii)=>{ x.disabled = true; if(q.opts[ii].ok) x.classList.add('ok'); }); if(!pick.ok) b.classList.add('bad'); else qz.score++;
+    $('#qzFb').innerHTML = `<div class="expl">${pick.ok?'✅ Doğru! ':'❌ Olmadı. '}${esc(q.e)}</div><div style="margin-top:12px"><button class="btn small" id="qzNext">${qz.i===QUIZ.length-1?'Sonucu gör':'Sonraki soru →'}</button></div>`;
+    $('#qzNext').onclick = ()=>{ qz.i++; renderQuiz(); }; addRipples();
+  });
+}
+startQuiz(); qz.started = false; renderQuiz();
+ 
+/* =====================================================================
+   7) PROFİL
+   ===================================================================== */
+function renderProfile(){
+  const box = $('#profBox'); if(!box) return;
+  const lv = level(), pct = state.xp % 100, vis = Object.keys(state.visited).length;
+  const head = user ? `<div class="avatar big-av">${esc((user.name||'?')[0].toUpperCase())}</div><h3 style="text-align:center;margin:0">${esc(user.name)}</h3><div style="text-align:center;color:var(--muted);font-weight:700">${esc(user.email||'')}</div>`
+    : `<div class="avatar big-av">?</div><h3 style="text-align:center">Misafir öğrenci</h3><p style="text-align:center;color:var(--muted)">Giriş yaparak ilerlemeni ve araştırma günlüğünü kaydet.</p><div style="text-align:center"><button class="btn" id="pfLogin">Giriş / Kayıt</button></div>`;
+  box.innerHTML = `<div class="card">${head}
+      <div style="text-align:center;margin-top:12px"><span class="pill green">Seviye ${lv}</span> <span class="pill">${state.xp} XP</span></div>
+      <div class="xpbar"><i style="width:${pct}%"></i></div><small style="color:var(--muted);font-weight:700">Sonraki seviyeye ${100-pct} XP</small>
+      <div class="prog"><div><span>Gezilen konu</span><b>${vis}/3</b></div><div><span>Araştırma kaydı</span><b>${state.notes.length}</b></div><div><span>Sınav en iyi</span><b>${state.quizBest}/${QUIZ.length}</b></div><div><span>Özellik avı</span><b>${state.matrixDone?'✓':'—'}</b></div></div>
+      ${user?'<button class="btn ghost small" id="pfOut">Çıkış yap</button>':''}</div>
+    <div class="card"><h3>🏅 Rozetlerim</h3><div class="badges">${BADGES.map(b=>`<div class="badge ${state.badges[b.id]?'got':''}"><b>${b.ic}</b><small>${b.n}</small><br><small style="font-weight:600;color:var(--muted)">${b.d}</small></div>`).join('')}</div></div>`;
+  const l = $('#pfLogin'); if(l) l.onclick = openAuth;
+  const o = $('#pfOut'); if(o) o.onclick = async ()=>{ await Auth.out(); toast('Çıkış yapıldı, görüşürüz 👋'); };
+  addRipples();
+}
+function renderAll(){
+  renderNav(); renderProfile(); renderJournal();
+  $$('.emo').forEach(box=>$$('button',box).forEach(b=>b.classList.toggle('on', state.reflect[box.dataset.k]===+b.dataset.v)));
+}
+ 
+/* =====================================================================
+   8) GİRİŞ / KAYIT PENCERESİ
+   ===================================================================== */
+const dlg = $('#auth'); let mode = 'in';
+function setMode(m){
+  mode = m; $('#segIn').classList.toggle('on', m==='in'); $('#segUp').classList.toggle('on', m==='up');
+  $('#nameFld').style.display = m==='up' ? 'grid' : 'none';
+  $('#aSubmit').textContent = m==='up' ? 'Hesap Oluştur' : 'Giriş Yap';
+  $('#authTitle').textContent = m==='up' ? 'Aramıza katıl!' : 'Hoş geldin!';
+  $('#aPass').autocomplete = m==='up' ? 'new-password' : 'current-password';
+  $('#aReset').style.display = m==='in' ? 'block' : 'none'; $('#aErr').textContent = '';
+}
+function openAuth(){ $('#demoNote').style.display = fb ? 'none' : 'block'; setMode('in'); dlg.showModal(); }
+$('#segIn').onclick = ()=>setMode('in'); $('#segUp').onclick = ()=>setMode('up');
+$('#authClose').onclick = ()=>dlg.close();
+dlg.addEventListener('click', e=>{ if(e.target===dlg) dlg.close(); });
+function authErr(e){ $('#aErr').textContent = ERR[e.code] || e.message || 'Bir hata oluştu, tekrar dene.'; }
+$('#authForm').addEventListener('submit', async e=>{
+  e.preventDefault(); const em = $('#aMail').value.trim(), pw = $('#aPass').value, nm = $('#aName').value.trim(); $('#aErr').textContent = '';
+  if(!/^\S+@\S+\.\S+$/.test(em)) return authErr({code:'auth/invalid-email'});
+  if(mode==='up' && !nm) return authErr({message:'Lütfen adını yaz.'});
+  if(pw.length<6) return authErr({code:'auth/weak-password'});
+  const btn = $('#aSubmit'); btn.disabled = true;
+  try{ if(mode==='up') await Auth.signUp(nm,em,pw); else await Auth.signIn(em,pw); dlg.close(); $('#authForm').reset(); toast(`Hoş geldin ${user.name}! 🎉`); confetti(90); }
+  catch(err){ authErr(err); } finally{ btn.disabled = false; }
+});
+$('#gBtn').onclick = async ()=>{ $('#aErr').textContent=''; try{ await Auth.google(); dlg.close(); toast(`Hoş geldin ${user.name}! 🎉`); confetti(90); }catch(err){ authErr(err); } };
+$('#aReset').onclick = async ()=>{
+  const em = $('#aMail').value.trim(); if(!/^\S+@\S+\.\S+$/.test(em)) return authErr({message:'Önce e-posta adresini yaz.'});
+  try{ await Auth.reset(em); $('#aErr').style.color='#138a5b'; $('#aErr').textContent='Sıfırlama bağlantısı e-postana gönderildi.'; setTimeout(()=>{$('#aErr').style.color='';},4000); }catch(err){ authErr(err); }
+};
+ 
+/* =====================================================================
+   9) BAŞLANGIÇ
+   ===================================================================== */
+if(fb){
+  fb.A.onAuthStateChanged(fb.auth, async u => { await setUser(fbUser(u)); });
+} else {
+  const k = LS.get('dh_session', null); const users = LS.get('dh_users', {});
+  if(k) await setUser({uid:k, name:(users[k]&&users[k].name)||k.split('@')[0], email:k}); else await setUser(null);
+}
+openTopic('para'); // ilk konu açık gelsin (ziyaret XP'si ilk gerçek tıklamada verilir)
+state.visited = LS.get('dh_state_guest',{}).visited && !user ? state.visited : state.visited;
+</script>
+</body>
+</html>
